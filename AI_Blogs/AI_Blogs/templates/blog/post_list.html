@@ -1,0 +1,130 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}AI/ML Blog - Latest Articles{% endblock %}
+
+{% block content %}
+<!-- Recent Posts Section -->
+{% if not category and not tag %}
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Recent Posts</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    {% for post in latest_posts %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 hover-lift">
+            <div class="card-body d-flex flex-column">
+                <h3 class="card-title">
+                    <a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title }}</a>
+                </h3>
+                <p class="card-text text-muted article-meta flex-grow-1">
+                    <small>
+                        By {{ post.author }} on {{ post.created_at|date:"F d, Y" }} in 
+                        <a href="{% url 'blog:post_list_by_category' post.category.slug %}" class="text-decoration-none">
+                            {{ post.category }}
+                        </a>
+                    </small>
+                </p>
+                <p class="card-text">{{ post.excerpt|safe }}</p>
+                <a href="{{ post.get_absolute_url }}" class="btn btn-primary mt-auto">Read More</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="mb-0">No recent posts available.</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- All Posts Section -->
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">
+            {% if category %}
+                Posts in "{{ category.name }}"
+            {% elif tag %}
+                Posts tagged with "{{ tag.name }}"
+            {% else %}
+                All Posts
+            {% endif %}
+        </h2>
+    </div>
+</div>
+
+<div class="row">
+    {% for post in page_obj %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 hover-lift">
+            <div class="card-body d-flex flex-column">
+                <h3 class="card-title">
+                    <a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title }}</a>
+                </h3>
+                <p class="card-text text-muted article-meta flex-grow-1">
+                    <small>
+                        By {{ post.author }} on {{ post.created_at|date:"F d, Y" }} in 
+                        <a href="{% url 'blog:post_list_by_category' post.category.slug %}" class="text-decoration-none">
+                            {{ post.category }}
+                        </a>
+                    </small>
+                </p>
+                <p class="card-text">{{ post.excerpt|safe }}</p>
+                <a href="{{ post.get_absolute_url }}" class="btn btn-primary mt-auto">Read More</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <p class="mb-0">No posts found.</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

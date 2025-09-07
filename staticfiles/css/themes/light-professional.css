@@ -1,0 +1,85 @@
+/* Light Professional Theme - Clean and Modern */
+
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #64748b;
+    --light-bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --border-color: #e2e8f0;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --accent-color: #6366f1;
+    --navbar-bg: #ffffff;
+    --navbar-text: #1e293b;
+    --footer-bg: #f8fafc;
+    --footer-text: #64748b;
+    --code-bg: #f1f5f9;
+}
+
+/* Navbar improvements */
+.navbar {
+    background-color: var(--navbar-bg) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.navbar-brand {
+    color: var(--primary-color) !important;
+}
+
+.navbar-nav .nav-link {
+    color: var(--navbar-text) !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color) !important;
+    background-color: #f0f9ff;
+}
+
+/* Enhanced card styling */
+.card {
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Professional color scheme for buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 0;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-1px);
+}
+
+/* Enhanced code blocks */
+pre[class*="language-"] {
+    background: var(--code-bg) !important;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+/* Professional blockquote */
+blockquote {
+    background: linear-gradient(to right, #f0f9ff, #e0f2fe);
+    border: 0;
+    border-left: 3px solid #3b82f6;
+}
+
+/* Footer enhancement */
+footer {
+    background-color: var(--footer-bg) !important;
+    border-top: 1px solid #e5e7eb !important;
+    color: var(--footer-text) !important;
+}

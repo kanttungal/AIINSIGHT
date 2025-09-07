@@ -1,0 +1,153 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }} - AI/ML Blog{% endblock %}
+
+{% block extra_css %}
+<style>
+    .post-content {
+        line-height: 1.8;
+        font-size: 1.1rem;
+    }
+    
+    .post-content h2, .post-content h3, .post-content h4 {
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+    }
+    
+    .post-content p {
+        margin-bottom: 1.5rem;
+    }
+    
+    .post-content img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin: 1rem 0;
+    }
+    
+    .post-content code {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+    
+    .post-content pre {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+    }
+    
+    .post-content blockquote {
+        border-left: 4px solid var(--primary-gradient);
+        padding: 0.5rem 1rem;
+        margin: 1.5rem 0;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0 8px 8px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Main Content -->
+    <div class="col-md-8">
+        <article>
+            <h1>{{ post.title }}</h1>
+            <p class="text-muted">
+                <small>
+                    By {{ post.author }} on {{ post.created_at|date:"F d, Y" }} in 
+                    <a href="{% url 'blog:post_list_by_category' post.category.slug %}" class="text-decoration-none">
+                        {{ post.category }}
+                    </a>
+                </small>
+            </p>
+            
+            <div class="post-content">
+                {{ post.content|safe }}
+            </div>
+            
+            <!-- Tags -->
+            {% if post.tags.all %}
+            <div class="mt-4">
+                <strong>Tags:</strong>
+                {% for tag in post.tags.all %}
+                <a href="{% url 'blog:post_list_by_tag' tag.slug %}" 
+                   class="btn btn-outline-secondary btn-sm me-1 mb-1">
+                    {{ tag.name }}
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <!-- Social Sharing -->
+            <div class="mt-4">
+                <strong>Share this post:</strong>
+                <div class="mt-2">
+                    <a href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri }}" 
+                       target="_blank" class="btn btn-outline-primary me-2">
+                        Twitter
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                       target="_blank" class="btn btn-outline-primary me-2">
+                        Facebook
+                    </a>
+                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title|urlencode }}" 
+                       target="_blank" class="btn btn-outline-primary">
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+        </article>
+        
+        <!-- Related Posts -->
+        {% if related_posts %}
+        <section class="mt-5">
+            <h3>Related Posts</h3>
+            <div class="row">
+                {% for related_post in related_posts %}
+                <div class="col-md-4 mb-3">
+                    <div class="card card-3d h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ related_post.get_absolute_url }}" class="text-decoration-none">
+                                    {{ related_post.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text">{{ related_post.excerpt|safe }}</p>
+                            <a href="{{ related_post.get_absolute_url }}" class="btn btn-primary btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+    
+    <!-- Sidebar -->
+    <div class="col-md-4">
+        <!-- Categories -->
+        <div class="card card-3d mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Categories</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for cat in categories %}
+                    <a href="{% url 'blog:post_list_by_category' cat.slug %}" 
+                       class="list-group-item list-group-item-action">
+                        {{ cat.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+{% endblock %}
