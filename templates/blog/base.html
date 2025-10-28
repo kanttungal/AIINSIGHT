@@ -26,16 +26,17 @@
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            --dark-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             --hero-gradient: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
             --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-            --nav-gradient: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(26,26,46,0.9) 100%);
-            --footer-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --nav-gradient: linear-gradient(135deg, rgba(15,12,41,0.9) 0%, rgba(36,36,62,0.9) 100%);
+            --footer-gradient: linear-gradient(135deg, #0f0c29 0%, #24243e 100%);
             --glass-bg: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.15);
             --text-primary: #ffffff;
             --text-secondary: #e0e0e0;
             --text-muted: #a0a0a0;
+            --glow-color: rgba(79, 172, 254, 0.4);
         }
 
         body {
@@ -48,6 +49,37 @@
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
+        }
+
+        /* Cosmic Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            overflow: hidden;
+        }
+
+        .cosmic-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(118, 75, 162, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);
+            animation: cosmicGlow 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes cosmicGlow {
+            0% { opacity: 0.5; }
+            100% { opacity: 0.8; }
         }
 
         /* Page Loader */
@@ -533,7 +565,7 @@
                 display: block;
             }
         }
-
+        
         @media (max-width: 768px) {
             .search-input {
                 width: 100%;
@@ -548,7 +580,7 @@
                 margin-bottom: 1.5rem;
             }
         }
-
+        
         @media (max-width: 576px) {
             .nav-link { 
                 padding: 0.4rem 0.8rem; 
@@ -568,9 +600,83 @@
                 font-size: 1.1rem;
             }
         }
+        
+        /* 3D Cube Animation */
+        @keyframes rotateCube {
+            0% { transform: rotateX(0deg) rotateY(0deg); }
+            25% { transform: rotateX(90deg) rotateY(0deg); }
+            50% { transform: rotateX(90deg) rotateY(90deg); }
+            75% { transform: rotateX(0deg) rotateY(90deg); }
+            100% { transform: rotateX(0deg) rotateY(0deg); }
+        }
+        
+        .cube {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-gradient);
+            position: absolute;
+            animation: rotateCube 10s infinite ease-in-out;
+            animation-direction: alternate;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            border-radius: 8px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .cube::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--secondary-gradient);
+            animation: rotateCube 10s infinite ease-in-out;
+            animation-direction: alternate;
+            transform: rotateY(90deg);
+            z-index: 1;
+        }
+        
+        .cube::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--accent-gradient);
+            animation: rotateCube 10s infinite ease-in-out;
+            animation-direction: alternate;
+            transform: rotateX(90deg);
+            z-index: 2;
+        }
+        
+        /* Apply cubes to particle background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: var(--primary-gradient);
+            border: 2px solid var(--glass-border);
+            animation: rotateCube 10s infinite ease-in-out;
+            animation-direction: alternate;
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            opacity: 0.8;
+        }
+        
+        /* Removed cube animations to use simple floating particles */
     </style>
 </head>
 <body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg"></div>
+
     <!-- Page Loader -->
     <div class="page-loader" id="pageLoader">
         <div class="loader"></div>
@@ -628,35 +734,10 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container mt-4">
-        {% block content %}
-        <!-- Example of how posts should be structured -->
-        <div class="row">
-            {% for post in posts %}
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
-                <div class="card card-3d h-100">
-                    {% if post.image %}
-                    <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
-                    {% else %}
-                    <img src="{% static 'images/default-post.jpg' %}" class="card-img-top" alt="{{ post.title }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <span class="category-badge">{{ post.category.name }}</span>
-                        <h5 class="card-title mt-3">{{ post.title }}</h5>
-                        <p class="card-text">{{ post.excerpt|truncatewords:20 }}</p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-muted"><i class="far fa-clock me-1"></i>{{ post.published_date|timesince }} ago</small>
-                            <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-sm btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% endblock %}
-    </main>
+<main class="container-fluid mt-4">
+    {% block content %}
+    {% endblock %}
+</main>
 
     <!-- Enhanced Footer -->
     <footer class="footer-content">

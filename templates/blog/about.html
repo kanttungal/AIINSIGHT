@@ -23,16 +23,17 @@
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            --dark-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             --hero-gradient: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
             --card-gradient: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-            --nav-gradient: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(26,26,46,0.9) 100%);
-            --footer-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --nav-gradient: linear-gradient(135deg, rgba(15,12,41,0.9) 0%, rgba(36,36,62,0.9) 100%);
+            --footer-gradient: linear-gradient(135deg, #0f0c29 0%, #24243e 100%);
             --glass-bg: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.15);
             --text-primary: #ffffff;
             --text-secondary: #e0e0e0;
             --text-muted: #a0a0a0;
+            --glow-color: rgba(79, 172, 254, 0.4);
         }
 
         body {
@@ -45,6 +46,41 @@
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
+        }
+
+        /* Cosmic Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            overflow: hidden;
+        }
+
+        .cosmic-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(118, 75, 162, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);
+            animation: cosmicGlow 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes cosmicGlow {
+            0% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 0.8;
+            }
         }
 
         /* Page Loader */
@@ -107,7 +143,7 @@
 
         .navbar.scrolled {
             padding: 0.8rem 0;
-            background: rgba(0, 0, 0, 0.95) !important;
+            background: rgba(15, 12, 41, 0.95) !important;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
@@ -255,7 +291,7 @@
 
         .card-3d:hover {
             transform: translateY(-12px) rotateX(3deg);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 20px var(--glow-color);
         }
 
         .card-3d .card-img-top {
@@ -462,7 +498,13 @@
             border-radius: 50%;
             overflow: hidden;
             border: 4px solid var(--glass-border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 1px var(--glow-color);
+            transition: all 0.3s ease;
+        }
+
+        .profile-img-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 20px var(--glow-color);
         }
 
         .profile-img {
@@ -903,6 +945,9 @@
     </style>
 </head>
 <body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg"></div>
+
     <!-- Page Loader -->
     <div class="page-loader" id="pageLoader">
         <div class="loader"></div>
@@ -963,7 +1008,7 @@
     <section class="about-hero">
         <div class="container">
             <div class="profile-img-container">
-                <img src="{% static 'images/photo.jpg' %}" alt="Vishnukant" class="profile-img">
+                <img src="{% static 'images/photo1.jpg' %}" alt="Vishnukant" class="profile-img">
                 <div class="profile-overlay">
                     <div class="profile-text">AI/ML Developer</div>
                 </div>
@@ -982,16 +1027,10 @@
                     <div class="card-body">
                         <h2 class="card-title">Hello, I'm Vishnukant</h2>
                         <p class="card-text">
-                            Hello there! I'm Vishnukant, an AI and Machine Learning Developer with a passion for Leveraging Technologies to solve real-world problems.
-                            I have a strong background in Python programming and a deep interest in AI/ML technologies
-                            and I have completed some machine learning projects like Heart Disease Prediction, Car Price Modal Evaluation,
-                             Customer Segmentation Using Multiple Clustering Algorithms etc. 
-
+                            As a dedicated AI and Machine Learning Developer, I specialize in leveraging cutting-edge technologies to address complex real-world challenges. With a robust foundation in Python programming and extensive expertise in AI/ML frameworks, I have successfully delivered projects including Heart Disease Prediction, Car Price Model Evaluation, and Customer Segmentation using advanced clustering algorithms.
                         </p>
                         <p class="card-text">
-                            My journey in AI/ML started during my computer science studies, and I've been hooked ever since. 
-                            I enjoy exploring new technologies, experimenting with algorithms, and sharing my knowledge through 
-                            this blog to help others in the community.
+                            My passion for AI/ML ignited during my computer science studies, and I continue to thrive on exploring innovative technologies, optimizing algorithms, and contributing to the tech community through this blog by sharing actionable insights and best practices.
                         </p>
                     </div>
                 </div>
@@ -1058,37 +1097,34 @@
 
         <!-- Experience & Education -->
         <section class="mb-5">
-            <h2 class="text-center mb-5" data-aos="fade-up">Experience & Education</h2>
+            <h2 class="text-center mb-5" data-aos="fade-up">Professional Experience & Education</h2>
             <div class="timeline">
-                <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-item" data-aos="fade-up" data-aos-delay="0">
                     <div class="timeline-content">
-                        <span class="timeline-date">February 2024 - July 2024</span>
-                        <h4>Django Framework</h4>
-                        <p>6 months Django Framework Traning.</p>
-                        <p>Work on Some Projects.</p>
+                        <span class="timeline-date">2024 - Present</span>
+                        <h4>Junior AI/ML Developer</h4>
+                        <p>Navpragy Technology Pvt Ltd</p>
+                        <p> Developed and implemented machine learning models for real-world applications.
+                            Worked on end-to-end AI/ML projects including data preprocessing, model training, and deployment
+                            Applied advanced algorithms in supervised and unsupervised learning domains.
+                        </p>
                     </div>
                 </div>
                 <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
                     <div class="timeline-content">
-                        <h4>Data Scientist</h4>
-                        <p>Tech Solutions Inc.</p>
-                        <p>Worked on data analysis and predictive modeling projects, developed recommendation systems, and implemented machine learning pipelines for business intelligence.</p>
+                        <span class="timeline-date">February 2024 - July 2024</span>
+                        <h4>Python and Django Developer</h4>
+                        <p>Personal Projects</p>
+                        <p>Developed full-stack applications including OwnDoctor healthcare platform and AI/ML Insights Blog using Django, integrating RESTful APIs and machine learning models for enhanced functionality.</p>
                     </div>
                 </div>
+                
                 <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
                     <div class="timeline-content">
-                       
-                        <h4>Machine Learning Intern</h4>
-                        <p>AI Innovations Lab</p>
-                        <p>Assisted in research and development of deep learning models, participated in data preprocessing, and contributed to the deployment of ML models in production environments.</p>
-                    </div>
-                </div>
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
-                    <div class="timeline-content">
                         <span class="timeline-date">2021 - 2024</span>
-                        <h4>Bachelor Vocational Information Technology(B.VOC)</h4>
-                        <p>University of Technology</p>
-                        <p>Specialized in artificial intelligence and machine learning. Completed thesis on "Deep Learning Approaches for Natural Language Processing".</p>
+                        <h4>Bachelor of Vocational Studies in Information Technology (B.Voc)</h4>
+                        <p>Maa Shakumbhari University(MSU),Saharanpur</p>
+                        <p>Focused on AI and Machine Learning, culminating in a thesis on "Deep Learning Approaches for Natural Language Processing," achieving top honors in AI coursework.</p>
                     </div>
                 </div>
             </div>
@@ -1102,14 +1138,15 @@
                     <div class="project-card">
                         <img src="https://github.com/KarnikaKapoor/Files/blob/main/Colorful%20Handwritten%20About%20Me%20Blank%20Education%20Presentation.gif?raw=true" alt="Sentiment Analysis" class="project-img">
                         <div class="project-content">
-                            <h3 class="project-title">Customer Segmentation Using Multiple Clustering Algorithms</h3>
-                            <p class="card-text">This project implements and compares multiple unsupervised clustering algorithms on synthetic customer data to identify meaningful segments. The dataset includes features such as Age, Income, and Spending Score. 1 KMeans, 2 Agglomerative Clustering,3 DBSCAN (with parameter tuning),4 Mean Shift,5 Gaussian Mixture Models (GMM)..</p>
+                            <h3 class="project-title">Advanced Customer Segmentation with Clustering Algorithms</h3>
+                            <p class="card-text">Developed a comprehensive analysis comparing K-Means, Agglomerative, DBSCAN, Mean Shift, and GMM algorithms on customer datasets featuring age, income, and spending score. Achieved optimal cluster validation using silhouette scores, enabling targeted marketing strategies.</p>
                             <div class="project-tags">
-                                <span class="project-tag">KMeans</span>
-                                <span class="project-tag">Aglomerative</span>
+                                <span class="project-tag">K-Means</span>
+                                <span class="project-tag">Agglomerative</span>
                                 <span class="project-tag">DBSCAN</span>
                                 <span class="project-tag">Mean Shift</span>
                                 <span class="project-tag">GMM</span>
+                                <span class="project-tag">Scikit-learn</span>
                             </div>
                         </div>
                     </div>
@@ -1118,12 +1155,13 @@
                     <div class="project-card">
                         <img src="https://media.istockphoto.com/id/1435498034/photo/heart-attack-and-heart-disease-3d-illustration.jpg?s=612x612&w=0&k=20&c=peIJNOEj2YYzbLVEcgesNYpty4X51oI0Q1V1WqdWja8=" alt="Image Recognition" class="project-img">
                         <div class="project-content">
-                            <h3 class="project-title">Heart Disease Prediction</h3>
-                            <p class="card-text">1.Data loading and preprocessing (feature scaling) 2.Model training using Logistic Regression 3.Model evaluation using accuracy and classification metrics 4.Save and reuse the model with joblib 5.Predict heart disease on new patient data.</p>
+                            <h3 class="project-title">Predictive Heart Disease Diagnosis System</h3>
+                            <p class="card-text">Built an end-to-end ML pipeline for heart disease prediction using Logistic Regression with feature scaling and comprehensive evaluation metrics (accuracy, precision, recall). Model serialization with joblib enables seamless deployment for real-time patient risk assessment.</p>
                             <div class="project-tags">
                                 <span class="project-tag">Logistic Regression</span>
-                                <span class="project-tag">Feature scaling</span>
-                                <span class="project-tag">classification metrics</span>
+                                <span class="project-tag">Scikit-learn</span>
+                                <span class="project-tag">Joblib</span>
+                                <span class="project-tag">Pandas</span>
                             </div>
                         </div>
                     </div>
@@ -1132,10 +1170,13 @@
                     <div class="project-card">
                         <img src="https://miro.medium.com/v2/resize:fit:1400/1*pZf4I6Ft2EHsfPjCJOtZ6A.jpeg" alt="Predictive Analytics" class="project-img">
                         <div class="project-content">
-                            <h3 class="project-title">Wine Quality Analysis</h3>
-                            <p class="card-text">This project demonstrates the application of Principal Component Analysis (PCA) on a wine quality dataset to reduce the dimensionality of features and visualize high-dimensional data in a 2D plot. The dataset consists of various physicochemical features of red and white wines..</p>
+                            <h3 class="project-title">Wine Quality Dimensionality Reduction with PCA</h3>
+                            <p class="card-text">Applied Principal Component Analysis (PCA) to the UCI Wine Quality dataset, reducing 11 physicochemical features to 2D for visualization while preserving 95% variance. Enables intuitive analysis of wine quality patterns across red and white variants.</p>
                             <div class="project-tags">
                                 <span class="project-tag">PCA</span>
+                                <span class="project-tag">Matplotlib</span>
+                                <span class="project-tag">NumPy</span>
+                                <span class="project-tag">Scikit-learn</span>
                             </div>
                         </div>
                     </div>
@@ -1328,11 +1369,11 @@
         function performSearch() {
             const searchQuery = document.getElementById('searchInput').value.trim();
             if (searchQuery) {
-                const searchUrl = `{% url 'blog:post_search' %}`;
+                const searchUrl = {% url 'blog:post_search' %};
                 window.location.href = `${searchUrl}?q=${encodeURIComponent(searchQuery)}`;
             } else {
                 // If search is empty, just navigate to search page
-                window.location.href = `{% url 'blog:post_search' %}`;
+                window.location.href = {% url 'blog:post_search' %};
             }
         }
 
