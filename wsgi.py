@@ -6,19 +6,16 @@ import sys
 
 # Add your project directory to the sys.path
 # Replace 'yourusername' and 'yourproject' with your actual PythonAnywhere username and project directory
-project_home = '/home/kanttungal/AI_INSIGHTS'
+project_home = '/home/kanttungal/AI_Blogs/AI_Blogs'
 if project_home not in sys.path:
     sys.path.insert(0, project_home)
 
 # Set environment variable to point to your settings module
-os.environ['DJANGO_SETTINGS_MODULE'] = 'ai_blog.settings_pythonanywhere'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'AI_Blogs.ai_blog.settings_production'
 
-# Activate your virtual env if you have one
-# This assumes you have a virtualenv at `~/venv`
-# Uncomment and modify the path if you have a virtual environment
-# activate_this = os.path.expanduser('~/venv/bin/activate_this.py')
-# if os.path.exists(activate_this):
-#     exec(open(activate_this).read(), {'__file__': activate_this})
+activate_this = os.path.expanduser('~/venv/bin/activate_this.py')
+if os.path.exists(activate_this):
+    exec(open(activate_this).read(), {'__file__': activate_this})
 
 # Import Django
 import django

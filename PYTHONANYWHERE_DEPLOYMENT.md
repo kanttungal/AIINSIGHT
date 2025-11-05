@@ -1,6 +1,6 @@
-# PythonAnywhere Deployment Guide
+# Render Deployment Guide
 
-This guide explains how to deploy the AI Blog Django application to PythonAnywhere.
+This guide explains how to deploy the AI Blog Django application to Render.
 
 ## Prerequisites
 
@@ -16,8 +16,8 @@ You have two options to get your code to PythonAnywhere:
 **Option A: Using Git (Recommended)**
 ```bash
 # Clone your repository
-git clone https://github.com/kanttungal/your-repo.git
-cd your-repo
+git clone https://github.com/kanttungal/AIINSIGHT.git
+cd AIINSIGHT
 ```
 
 **Option B: Direct Upload**
@@ -73,27 +73,30 @@ python manage.py createsuperuser
 3. Choose "Manual configuration" (not the Django autoconfig)
 4. Select Python 3.x version
 
-### 6. Configure Web App Settings
+### 6. Configure Render Settings
 
-In the Web app configuration page:
+In the Render dashboard, ensure the following settings are configured:
 
-**Source code:**
+**Project Directory:**
 ```
-/home/yourusername/ai-blog
-```
-
-**Working directory:**
-```
-/home/yourusername/ai-blog
+/home/kanttungal/AI_Blogs
 ```
 
-**Virtual environment:**
-```
-/home/yourusername/ai-blog/venv
+**Build Command:**
+```bash
+pip install -r requirements.txt
+python manage.py collectstatic --noinput
 ```
 
-**WSGI configuration file:**
-Edit the WSGI file to contain:
+**Start Command:**
+```bash
+gunicorn ai_blog.wsgi:application
+```
+
+**Environment Variables:**
+- `DATABASE_URL`: Your Render PostgreSQL database URL
+- `SECRET_KEY`: Your Django secret key
+- `ALLOWED_HOSTS`: Your Render app domain (e.g., `your-app-name.onrender.com`)
 
 ```python
 import os
@@ -145,9 +148,15 @@ DEBUG=False
 DOMAIN_NAME=your-username.pythonanywhere.com
 ```
 
-### 10. Reload the Application
+### 10. Deploy via Render Dashboard
 
-Click the "Reload" button to restart your web application.
+1. Go to the [Render Dashboard](https://dashboard.render.com)
+2. Create a new Web Service
+3. Select "Django" as the framework
+4. Set the project directory to `/home/kanttungal/AI_Blogs`
+5. Use the `render.yaml` file in your repository for configuration
+6. Set environment variables in the "Variables" tab
+7. Click "Launch" to deploy
 
 ## Database Considerations
 
